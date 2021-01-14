@@ -7,8 +7,4 @@ router.get("/point", async function (req, res, next) {
   res.json(userData);
 });
 
-router.get("/language", async function (req, res, next) {
-  res.json(userData);
-});
-
 module.exports = router;
