@@ -1,62 +1,98 @@
 [
   {
     "id": 1,
-    "name": "1",
+    "key": "all",
+    "label": "전체보기",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 2,
-    "name": "2",
+    "key": "tech",
+    "label": "테크-가전",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 3,
-    "name": "3",
+    "key": "fashion",
+    "label": "패션-잡화",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 4,
-    "name": "4",
+    "key": "beauty",
+    "label": "뷰티",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 5,
-    "name": "5",
+    "key": "food",
+    "label": "푸드",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 6,
-    "name": "6",
+    "key": "homeliving",
+    "label": "홈리빙",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 7,
-    "name": "7",
+    "key": "design",
+    "label": "디자인소품",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 8,
-    "name": "8",
+    "key": "travel",
+    "label": "여행-레저",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 9,
-    "name": "9",
+    "key": "sport",
+    "label": "스포츠-모빌리티",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 10,
-    "name": "10",
+    "key": "pet",
+    "label": "반려동물",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 11,
-    "name": "11",
+    "key": "meeting",
+    "label": "모임",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   },
   {
     "id": 12,
-    "name": "12",
+    "key": "culture",
+    "label": "공연-컬쳐",
+    "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
+  },
+  {
+    "id": 13,
+    "key": "social",
+    "label": "소셜-캠페인",
+    "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
+  },
+  {
+    "id": 14,
+    "key": "education",
+    "label": "교육-키즈",
+    "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
+  },
+  {
+    "id": 15,
+    "key": "game",
+    "label": "게임-취미",
+    "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
+  },
+  {
+    "id": 16,
+    "key": "publish",
+    "label": "출판",
     "img": "https://img-cf.kurly.com/shop/data/goods/1589438976172z0.jpg"
   }
 ]

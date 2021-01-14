@@ -24,20 +24,25 @@ router.get("/popular", function (req, res, next) {
 
 router.get("/category/:categoryId/:filterType", function (req, res, next) {
   const filterType = req.params.filterType;
+  const category = req.params.categoryId;
+  const categoryProjectList = goodsMockData.filter(
+    (good) => good.category_key === category || category == "all"
+  );
+
   switch (filterType) {
     case "percent":
-      goodsMockData.sort(sortByPercent);
+      categoryProjectList.sort(sortByPercent);
       break;
     case "amount":
-      goodsMockData.sort(sortByAmount);
+      categoryProjectList.sort(sortByAmount);
       break;
     case "closing":
-      goodsMockData.sort(sortByClosing);
+      categoryProjectList.sort(sortByClosing);
       break;
     default:
-      goodsMockData.sort(sortByPercent);
+      categoryProjectList.sort(sortByPercent);
   }
-  res.json(goodsMockData);
+  res.json(categoryProjectList);
 });
 
 router.get("/:projectId", function (req, res, next) {
