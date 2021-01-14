@@ -47,6 +47,7 @@ router.get("/category/:categoryId/:filterType", function (req, res, next) {
 
 router.get("/:projectId", function (req, res, next) {
   const projectId = req.params.projectId;
+  console.log(goodsMockData.find((goods) => goods.id == projectId));
   res.json(goodsMockData.find((goods) => goods.id == projectId));
 });
 
