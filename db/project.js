@@ -47,7 +47,7 @@ async function getCategoryProject({ category, filterType }) {
 
 async function getProjectDetail({ projectId }) {
   let [rows, fields] = await connection.query(
-    `SELECT * FROM project WHERE id = ${projectId}`
+    `SELECT * FROM project_detail WHERE id = ${projectId}`
   );
   return rows;
 }
