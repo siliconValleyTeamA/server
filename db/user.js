@@ -35,13 +35,13 @@ async function addCart({ date, money, project_id, user_id }) {
 
 async function editCart(req) {
   const query = mysql.format(
-    `UPDATE cart SET money=${req.body.point} WHERE id = ${req.body.cartId}`
+    `UPDATE cart SET money=${req.body.data.point} WHERE id = ${req.body.data.cartId}`
   );
   let [rows, fields] = await connection.query(query);
   return rows;
 }
 
-async function deleteCart(req) {;
+async function deleteCart(req) {
   const query = mysql.format(`DELETE FROM cart WHERE id = ${req.body.cartId}`);
   let [rows, fields] = await connection.query(query);
   return rows;

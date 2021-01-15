@@ -16,7 +16,7 @@ router.post("/logout", function (req, res, next) {
 
 router.get("/point", async function (req, res, next) {
   req.user = {
-    id: 1,
+    id: 3,
   };
   const rows = await getPoint(req);
   res.json(rows[0].point);
@@ -37,22 +37,19 @@ router.post("/carts", async function (req, res, next) {
     date: new Date(),
     money: money,
     project_id: project_id,
-    user_id: 1,
+    user_id: 3,
   });
 });
 
 router.get("/carts", async function (req, res, next) {
   req.user = {
-    id: 4,
+    id: 3,
   };
   const rows = await getCart(req);
   res.json(rows);
 });
 
 router.put("/carts", async function (req, res, next) {
-  req.user = {
-    id: 4,
-  };
   const rows = await editCart(req);
   res.json(rows);
 });
