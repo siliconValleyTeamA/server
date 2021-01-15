@@ -4,6 +4,7 @@ var router = express.Router();
 const {
   getScheduleProject,
   getSoonSuccessProject,
+  getPopularProject,
   getCategoryProject,
 } = require("../db/project");
 
@@ -17,8 +18,8 @@ router.get("/success", async function (req, res, next) {
   res.json(await getSoonSuccessProject());
 });
 
-router.get("/popular", function (req, res, next) {
-  res.json(goodsMockData);
+router.get("/popular", async function (req, res, next) {
+  res.json(await getPopularProject());
 });
 
 router.get(

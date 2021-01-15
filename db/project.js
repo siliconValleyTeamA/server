@@ -15,6 +15,14 @@ async function getSoonSuccessProject() {
   return rows;
 }
 
+async function getPopularProject() {
+  let [rows, fields] = await connection.query(
+    `SELECT * FROM project_detail_popular WHERE end_date >= CURDATE()`
+  );
+  console.log(rows);
+  return rows;
+}
+
 async function getCategoryProject({ category, filterType }) {
   let query = `SELECT * FROM project_detail`;
 
@@ -41,5 +49,6 @@ async function getCategoryProject({ category, filterType }) {
 module.exports = {
   getScheduleProject,
   getSoonSuccessProject,
+  getPopularProject,
   getCategoryProject,
 };
