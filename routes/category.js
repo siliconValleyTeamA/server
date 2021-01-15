@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router();
 
-const categoryMockData = require("../mocks/category.json");
+const { getScheduleProject } = require("../db/category");
 
-router.get("/", function (req, res, next) {
-  res.json(categoryMockData);
+router.get("/", async function (req, res, next) {
+  res.json(await getScheduleProject());
 });
 
 module.exports = router;

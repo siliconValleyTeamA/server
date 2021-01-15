@@ -8,8 +8,6 @@ const {
   getCategoryProject,
 } = require("../db/project");
 
-const goodsMockData = require("../mocks/goods.json");
-
 router.get("/schedule", async function (req, res, next) {
   res.json(await getScheduleProject());
 });
