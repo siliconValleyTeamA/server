@@ -5,11 +5,15 @@ const utils = require('../utils.js');
 const userData = require("../mocks/user.json");
 const goodsData = require("../mocks/goods.json");
 const { getPoint, addProjectCart } = require("../db/user");
+
+const userData = require("../mocks/user.json");
+const goodsData = require("../mocks/goods.json");
+const { getPoint, addProjectCart } = require("../db/user");
+
 const userData = require('../mocks/user.json');
 const jjimData = require('../mocks/jjim.json');
 const goodsData = require('../mocks/goods.json');
 const cartData = require('../mocks/cart.json');
-
 let cartList = [];
 let jjimList = [{ id: 1 }, { id: 2 }];
 
@@ -31,7 +35,6 @@ router.post("/cart", async function (req, res, next) {
     project_id: project_id,
     user_id: 1,
   });
-  
 router.get('/point', function (req, res, next) {
   res.json(userData);
 });
@@ -60,6 +63,7 @@ router.delete('/carts', function (req, rest, next) {
     return res.status(404).josn({ error: 'Unknown goods' });
   }
   cartData.splice(goodsIdx, 1);
+
   res.json({ success: true });
 });
 
