@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 const utils = require('../utils.js');
 
+const userData = require("../mocks/user.json");
+const goodsData = require("../mocks/goods.json");
+const { getPoint, addProjectCart } = require("../db/user");
 
 const userData = require("../mocks/user.json");
 const goodsData = require("../mocks/goods.json");
@@ -13,7 +16,6 @@ const goodsData = require('../mocks/goods.json');
 const cartData = require('../mocks/cart.json');
 let cartList = [];
 let jjimList = [{ id: 1 }, { id: 2 }];
-
 
 router.get("/point", async function (req, res, next) {
   req.user = {
@@ -33,7 +35,6 @@ router.post("/cart", async function (req, res, next) {
     project_id: project_id,
     user_id: 1,
   });
-
 router.get('/point', function (req, res, next) {
   res.json(userData);
 });
