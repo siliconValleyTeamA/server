@@ -7,10 +7,12 @@ var {
   sortByJjim,
 } = require("../utils");
 
+const { getScheduleProject } = require("../db/project");
+
 const goodsMockData = require("../mocks/goods.json");
 
-router.get("/schedule", function (req, res, next) {
-  res.json(goodsMockData);
+router.get("/schedule", async function (req, res, next) {
+  res.json(await getScheduleProject());
 });
 
 router.get("/success", function (req, res, next) {
@@ -18,7 +20,6 @@ router.get("/success", function (req, res, next) {
 });
 
 router.get("/popular", function (req, res, next) {
-  goodsMockData.sort(sortByJjim);
   res.json(goodsMockData);
 });
 
