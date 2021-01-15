@@ -13,6 +13,8 @@ tags:
     description: Access to project
   - name: user
     description: Operations about user
+  - name: cart
+    description: Cart for user
 paths:
   /api:
     get:
@@ -23,7 +25,7 @@ paths:
       responses:
         default:
           description: successful operation
-  /api/login:
+  /api/user/login:
     post:
       tags:
         - user
@@ -51,7 +53,7 @@ paths:
           description: User not found
         '5XX':
           description: Unexpected error.
-  /api/logout:
+  /api/user/logout:
     get:
       tags:
         - user
@@ -64,7 +66,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200'
-  /api/user/{userId}/jjim:
+  /api/user/jjim:
     get:
       tags:
         - user
@@ -95,6 +97,86 @@ paths:
           description: User not found
         '5XX':
           description: Unexpected error.
+  /api/user/carts:
+    post:
+      tags:
+        - cart
+      summary: push project in cart
+      operationId: createCartAPI
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartListArray'
+    get:
+      tags:
+        - cart
+      summary: Get project list in cart
+      operationId: getProjectListInCartAPI
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartListArray'
+    delete:
+      tags:
+        - cart
+      summary: remove project in cart
+      operationId: removeCartAPI
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartListArray'
+    put:
+      tags:
+        - cart
+      summary: change point of the project in cart
+      operationId: modifyCartAPI
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: point
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartListArray'
   /api/user/{userId}/history:
     get:
       tags:
@@ -390,6 +472,12 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Project'
+    CartListArray:
+      required:
+        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/Cart'
     Cart:
       required:
         - id
