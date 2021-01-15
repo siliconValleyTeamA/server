@@ -9,7 +9,9 @@ var projectRouter = require("./routes/project");
 var userRouter = require("./routes/user");
 var categoryRouter = require("./routes/category");
 
+const cors = require("cors");
 var app = express();
+app.use(cors());
 
 app.all("/*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
