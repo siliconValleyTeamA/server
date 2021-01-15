@@ -10,7 +10,7 @@ async function getPoint(req) {
 
 async function getHistory(req) {
   let [rows, fields] = await connection.query(
-    `SELECT * FROM project INNER JOIN history ON project.id=history.project_id WHERE user_id=${req.user.id}`
+    `SELECT * FROM project INNER JOIN history ON project.id=history.project_id WHERE user_id=${req.user.id} ORDER BY DATE`
   );
   return rows;
 }
