@@ -14,9 +14,54 @@ function sortByJjim(a, b) {
   return a.jjim > b.jjim ? -1 : a.jjim < b.jjim ? 1 : 0;
 }
 
-module.exports = {
-  sortByPercent,
-  sortByAmount,
-  sortByClosing,
-  sortByJjim,
-};
+function sortByJjimTime(a, b) {
+    var x = new Date(a.jjim_date);
+    var y = new Date(b.jjim_date);
+  
+    return x.getTime() > y.getTime()
+      ? -1
+      : x.getTime() < y.getTime()
+      ? 1
+      : 0;
+  }
+  
+  function dateFormat(n, digits){
+    let zero = '';
+    n = n.toString();
+    if (n.length < digits) {
+        for (i = 0; i < digits - n.length; i++)
+            zero += '0';
+        }
+    return zero + n;
+  }
+
+  function createDate(){
+    const date = new Date();
+    const createdDate = dateFormat(date.getFullYear(),4) + '-' +
+    dateFormat(date.getMonth() + 1, 2) + '-' +
+    dateFormat(date.getDate(),2);
+    return createdDate;
+  }
+
+  function createJjimData(goodsData, id){
+    var data = {
+        id : id,
+        title: goodsData.title,
+        percent: goodsData.percent,
+        amount: goodsData.amount,
+        dueDate: goodsData.dueDate,
+        jjim_date: createDate()
+    }
+    return data;
+  }
+  module.exports = {
+    sortByPercent,
+    sortByAmount,
+    sortByClosing,
+    sortByJjim,
+    createJjimData, 
+    sortByJjimTime
+  };
+
+ 
+
