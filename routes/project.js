@@ -32,24 +32,7 @@ router.get(
       category: category,
       filterType: filterType,
     });
-    console.log(rows);
-    // const categoryProjectList = goodsMockData.filter(
-    //   (good) => good.category_key === category || category == "all"
-    // );
 
-    // switch (filterType) {
-    //   case "percent":
-    //     categoryProjectList.sort(sortByPercent);
-    //     break;
-    //   case "amount":
-    //     categoryProjectList.sort(sortByAmount);
-    //     break;
-    //   case "closing":
-    //     categoryProjectList.sort(sortByClosing);
-    //     break;
-    //   default:
-    //     categoryProjectList.sort(sortByPercent);
-    // }
     res.json(rows);
   }
 );
