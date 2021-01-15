@@ -1,7 +1,14 @@
 var express = require("express");
 var router = express.Router();
 
-const { getPoint, addProjectCart } = require("../db/user");
+const {
+  getPoint,
+  getHistory,
+  getCart,
+  addCart,
+  editCart,
+  deleteCart,
+} = require("../db/user");
 
 router.post("/logout", function (req, res, next) {
   res.json({ test: "success" });
@@ -15,14 +22,18 @@ router.get("/point", async function (req, res, next) {
   res.json(rows[0].point);
 });
 
-router.get("/carts", function (req, res, next) {
-  res.json(cartList);
+router.get("/history", async function (req, res, next) {
+  req.user = {
+    id: 3,
+  };
+  const rows = await getHistory(req);
+  res.json(rows);
 });
 
-router.post("/cart", async function (req, res, next) {
+router.post("/carts", async function (req, res, next) {
   const money = parseInt(req.body.money.replace(/,/g, ""));
   const project_id = parseInt(req.body.projectId);
-  await addProjectCart({
+  await addCart({
     date: new Date(),
     money: money,
     project_id: project_id,
@@ -30,21 +41,24 @@ router.post("/cart", async function (req, res, next) {
   });
 });
 
-router.delete("/carts", function (req, rest, next) {
-  const projectId = parseInt(req.body.projectId, 10);
-  const goodsIdx = cartData.findIndex((goods) => goods.id === projectId);
-  if (goodsIdx === -1) {
-    return res.status(404).josn({ error: "Unknown goods" });
-  }
-  cartData.splice(goodsIdx, 1);
-
-  res.json({ success: true });
+router.get("/carts", async function (req, res, next) {
+  req.user = {
+    id: 4,
+  };
+  const rows = await getCart(req);
+  res.json(rows);
 });
 
-router.put("/carts", function (req, res, next) {
-  const projectId = parseInt(req.body.projectId, 10);
-  const changeData = cartData.find((goods) => goods.id === projectId);
-  changeData.point = req.body.point;
+router.put("/carts", async function (req, res, next) {
+  req.user = {
+    id: 4,
+  };
+  const rows = await editCart(req);
+  res.json(rows);
+});
+
+router.delete("/carts", async function (req, res, next) {
+  const rows = await deleteCart(req);
   res.json({ success: true });
 });
 
