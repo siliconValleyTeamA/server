@@ -8,7 +8,21 @@ async function getPoint(req) {
   return rows;
 }
 
-async function addProjectCart({ date, money, project_id, user_id }) {
+async function getHistory(req) {
+  let [rows, fields] = await connection.query(
+    `SELECT * FROM project INNER JOIN history ON project.id=history.project_id WHERE user_id=${req.user.id}`
+  );
+  return rows;
+}
+
+async function getCart(req) {
+  let [rows, fields] = await connection.query(
+    `SELECT *,cart.id as cart_id FROM project INNER JOIN cart ON project.id=cart.project_id WHERE user_id=${req.user.id}`
+  );
+  return rows;
+}
+
+async function addCart({ date, money, project_id, user_id }) {
   const query = mysql.format("INSERT INTO cart SET ?", {
     date,
     money,
@@ -19,7 +33,25 @@ async function addProjectCart({ date, money, project_id, user_id }) {
   return rows;
 }
 
+async function editCart(req) {
+  const query = mysql.format(
+    `UPDATE cart SET money=${req.body.point} WHERE id = ${req.body.cartId}`
+  );
+  let [rows, fields] = await connection.query(query);
+  return rows;
+}
+
+async function deleteCart(req) {;
+  const query = mysql.format(`DELETE FROM cart WHERE id = ${req.body.cartId}`);
+  let [rows, fields] = await connection.query(query);
+  return rows;
+}
+
 module.exports = {
   getPoint,
-  addProjectCart,
+  getHistory,
+  getCart,
+  addCart,
+  editCart,
+  deleteCart,
 };
