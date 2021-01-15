@@ -3,7 +3,14 @@ const mysql = require("mysql2");
 
 async function getScheduleProject() {
   let [rows, fields] = await connection.query(
-    `SELECT * FROM project WHERE start_date>=NOW()`
+    `SELECT * FROM project_detail WHERE open_left_days>=0`
+  );
+  return rows;
+}
+
+async function getSoonSuccessProject() {
+  let [rows, fields] = await connection.query(
+    `SELECT * FROM project_detail WHERE percent>=80 and percent <100`
   );
   return rows;
 }
@@ -31,4 +38,8 @@ async function getCategoryProject({ category, filterType }) {
   return rows;
 }
 
-module.exports = { getScheduleProject, getCategoryProject };
+module.exports = {
+  getScheduleProject,
+  getSoonSuccessProject,
+  getCategoryProject,
+};

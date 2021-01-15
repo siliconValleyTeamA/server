@@ -1,13 +1,11 @@
 var express = require("express");
 var router = express.Router();
-var {
-  sortByPercent,
-  sortByAmount,
-  sortByClosing,
-  sortByJjim,
-} = require("../utils");
 
-const { getScheduleProject, getCategoryProject } = require("../db/project");
+const {
+  getScheduleProject,
+  getSoonSuccessProject,
+  getCategoryProject,
+} = require("../db/project");
 
 const goodsMockData = require("../mocks/goods.json");
 
@@ -15,8 +13,8 @@ router.get("/schedule", async function (req, res, next) {
   res.json(await getScheduleProject());
 });
 
-router.get("/success", function (req, res, next) {
-  res.json(goodsMockData);
+router.get("/success", async function (req, res, next) {
+  res.json(await getSoonSuccessProject());
 });
 
 router.get("/popular", function (req, res, next) {
