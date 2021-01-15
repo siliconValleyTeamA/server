@@ -1,53 +1,43 @@
 var express = require("express");
 var router = express.Router();
-var {
-  sortByPercent,
-  sortByAmount,
-  sortByClosing,
-  sortByJjim,
-} = require("../utils");
+
+const {
+  getScheduleProject,
+  getSoonSuccessProject,
+  getPopularProject,
+  getCategoryProject,
+} = require("../db/project");
 
 const goodsMockData = require("../mocks/goods.json");
 
-router.get("/schedule", function (req, res, next) {
-  res.json(goodsMockData);
+router.get("/schedule", async function (req, res, next) {
+  res.json(await getScheduleProject());
 });
 
-router.get("/success", function (req, res, next) {
-  res.json(goodsMockData);
+router.get("/success", async function (req, res, next) {
+  res.json(await getSoonSuccessProject());
 });
 
-router.get("/popular", function (req, res, next) {
-  goodsMockData.sort(sortByJjim);
-  res.json(goodsMockData);
+router.get("/popular", async function (req, res, next) {
+  res.json(await getPopularProject());
 });
 
-router.get("/category/:categoryId/:filterType", function (req, res, next) {
-  const filterType = req.params.filterType;
-  const category = req.params.categoryId;
-  const categoryProjectList = goodsMockData.filter(
-    (good) => good.category_key === category || category == "all"
-  );
+router.get(
+  "/category/:categoryId/:filterType",
+  async function (req, res, next) {
+    const filterType = req.params.filterType;
+    const category = req.params.categoryId;
+    const rows = await getCategoryProject({
+      category: category,
+      filterType: filterType,
+    });
 
-  switch (filterType) {
-    case "percent":
-      categoryProjectList.sort(sortByPercent);
-      break;
-    case "amount":
-      categoryProjectList.sort(sortByAmount);
-      break;
-    case "closing":
-      categoryProjectList.sort(sortByClosing);
-      break;
-    default:
-      categoryProjectList.sort(sortByPercent);
+    res.json(rows);
   }
-  res.json(categoryProjectList);
-});
+);
 
 router.get("/:projectId", function (req, res, next) {
   const projectId = req.params.projectId;
-  console.log(goodsMockData.find((goods) => goods.id == projectId));
   res.json(goodsMockData.find((goods) => goods.id == projectId));
 });
 
