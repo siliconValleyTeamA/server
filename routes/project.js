@@ -7,7 +7,7 @@ var {
   sortByJjim,
 } = require("../utils");
 
-const { getScheduleProject } = require("../db/project");
+const { getScheduleProject, getCategoryProject } = require("../db/project");
 
 const goodsMockData = require("../mocks/goods.json");
 
@@ -23,32 +23,39 @@ router.get("/popular", function (req, res, next) {
   res.json(goodsMockData);
 });
 
-router.get("/category/:categoryId/:filterType", function (req, res, next) {
-  const filterType = req.params.filterType;
-  const category = req.params.categoryId;
-  const categoryProjectList = goodsMockData.filter(
-    (good) => good.category_key === category || category == "all"
-  );
+router.get(
+  "/category/:categoryId/:filterType",
+  async function (req, res, next) {
+    const filterType = req.params.filterType;
+    const category = req.params.categoryId;
+    const rows = await getCategoryProject({
+      category: category,
+      filterType: filterType,
+    });
+    console.log(rows);
+    // const categoryProjectList = goodsMockData.filter(
+    //   (good) => good.category_key === category || category == "all"
+    // );
 
-  switch (filterType) {
-    case "percent":
-      categoryProjectList.sort(sortByPercent);
-      break;
-    case "amount":
-      categoryProjectList.sort(sortByAmount);
-      break;
-    case "closing":
-      categoryProjectList.sort(sortByClosing);
-      break;
-    default:
-      categoryProjectList.sort(sortByPercent);
+    // switch (filterType) {
+    //   case "percent":
+    //     categoryProjectList.sort(sortByPercent);
+    //     break;
+    //   case "amount":
+    //     categoryProjectList.sort(sortByAmount);
+    //     break;
+    //   case "closing":
+    //     categoryProjectList.sort(sortByClosing);
+    //     break;
+    //   default:
+    //     categoryProjectList.sort(sortByPercent);
+    // }
+    res.json(rows);
   }
-  res.json(categoryProjectList);
-});
+);
 
 router.get("/:projectId", function (req, res, next) {
   const projectId = req.params.projectId;
-  console.log(goodsMockData.find((goods) => goods.id == projectId));
   res.json(goodsMockData.find((goods) => goods.id == projectId));
 });
 

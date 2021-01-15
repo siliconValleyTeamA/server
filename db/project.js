@@ -8,4 +8,11 @@ async function getScheduleProject() {
   return rows;
 }
 
-module.exports = { getScheduleProject };
+async function getCategoryProject({ category, filterType }) {
+  let [rows, fields] = await connection.query(
+    `SELECT * FROM project WHERE category_id=${category} or ${category} = 1`
+  );
+  return rows;
+}
+
+module.exports = { getScheduleProject, getCategoryProject };
