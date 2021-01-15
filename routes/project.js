@@ -6,6 +6,7 @@ const {
   getSoonSuccessProject,
   getPopularProject,
   getCategoryProject,
+  getProjectDetail,
 } = require("../db/project");
 
 router.get("/schedule", async function (req, res, next) {
@@ -34,9 +35,9 @@ router.get(
   }
 );
 
-router.get("/:projectId", function (req, res, next) {
+router.get("/:projectId", async function (req, res, next) {
   const projectId = req.params.projectId;
-  res.json(goodsMockData.find((goods) => goods.id == projectId));
+  res.json(await getProjectDetail({ projectId }));
 });
 
 module.exports = router;
