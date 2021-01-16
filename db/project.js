@@ -59,7 +59,7 @@ async function getProjectDetail({ projectId }) {
 //프로젝트 찜 여부 조회
 async function getUserJjim({ projectId, userId }) {
   const [rows, fields] = await connection.query(
-    `SELECT * from jjim INNER JOIN project ON project.id=jjim.project_id WHERE jjim.user_id=${userId} and project.id=${projectId}`
+    `SELECT *,jjim.id as jjim_id from jjim INNER JOIN project ON project.id=jjim.project_id WHERE jjim.user_id=${userId} and project.id=${projectId}`
   );
   return rows;
 }
