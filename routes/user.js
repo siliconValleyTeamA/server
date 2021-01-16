@@ -9,6 +9,9 @@ const {
   editCart,
   deleteCart,
   chargePoint,
+  getJjim,
+  addJjim,
+  deleteJjim,
 } = require("../db/user");
 
 router.post("/logout", function (req, res, next) {
@@ -38,6 +41,14 @@ router.get("/history", async function (req, res, next) {
   res.json(rows);
 });
 
+router.get("/carts", async function (req, res, next) {
+  req.user = {
+    id: 3,
+  };
+  const rows = await getCart(req);
+  res.json(rows);
+});
+
 router.post("/carts", async function (req, res, next) {
   const money = parseInt(req.body.money.replace(/,/g, ""));
   const project_id = parseInt(req.body.projectId);
@@ -47,14 +58,6 @@ router.post("/carts", async function (req, res, next) {
     project_id: project_id,
     user_id: 3,
   });
-});
-
-router.get("/carts", async function (req, res, next) {
-  req.user = {
-    id: 3,
-  };
-  const rows = await getCart(req);
-  res.json(rows);
 });
 
 router.put("/carts", async function (req, res, next) {
@@ -68,22 +71,29 @@ router.delete("/carts", async function (req, res, next) {
 });
 
 router.get("/jjim", async function (req, res, next) {
-  var sortjjimData = jjimData.sort(utils.sortByJjimTime);
-  res.json(sortjjimData);
+  req.user = {
+    id: 3,
+  };
+  const rows = await getJjim(req);
+  res.json(rows);
 });
 
-router.post("/jjim", function (req, res, next) {
-  const projectId = req.body.projectId;
-  const getGoodsData = goodsData.find((goods) => goods.id == projectId);
-  const inserData = utils.createJjimData(getGoodsData, jjimData.length + 1);
-  jjimData.push(inserData);
-  res.json(jjimData);
+router.post("/jjim", async function (req, res, next) {
+  const project_id = parseInt(req.body.projectId);
+  await addJjim({
+    date: new Date(),
+    project_id: project_id,
+    user_id: 3,
+  });
 });
 
-router.delete("/jjim", function (req, res, next) {
-  const projectId = req.body.projectId;
-  jjimList = jjimList.filter((jjim) => jjim.id != projectId);
-  res.json(jjimList);
+router.delete("/jjim", async function (req, res, next) {
+  const project_id = parseInt(req.body.projectId);
+  const rows = await deleteJjim({
+    project_id: project_id,
+    user_id: 3,
+  });
+  res.json({ success: true });
 });
 
 module.exports = router;
