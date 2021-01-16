@@ -26,6 +26,19 @@ async function getHistory(req) {
   return rows;
 }
 
+//펀딩 내역 추가
+async function addHistory({ date, money, projectId, userId }) {
+  console.log(date, money, projectId, userId);
+  const query = mysql.format("INSERT INTO history SET ?", {
+    date,
+    money,
+    project_id: projectId,
+    user_id: userId,
+  });
+  let [rows, fields] = await connection.query(query);
+  return rows;
+}
+
 //카트 조회
 async function getCart(req) {
   let [rows, fields] = await connection.query(
@@ -35,21 +48,21 @@ async function getCart(req) {
 }
 
 //카트 추가
-async function addCart({ date, money, project_id, user_id }) {
+async function addCart({ date, money, projectId, userId }) {
   const query = mysql.format("INSERT INTO cart SET ?", {
     date,
     money,
-    project_id,
-    user_id,
+    project_id: projectId,
+    user_id: userId,
   });
   let [rows, fields] = await connection.query(query);
   return rows;
 }
 
 //카트 수정
-async function editCart(req) {
+async function editCart({ point, cartId }) {
   const query = mysql.format(
-    `UPDATE cart SET money=${req.body.data.point} WHERE id = ${req.body.data.cartId}`
+    `UPDATE cart SET money=${point} WHERE id = ${cartId}`
   );
   let [rows, fields] = await connection.query(query);
   return rows;
@@ -71,21 +84,20 @@ async function getJjim(req) {
 }
 
 //찜 추가
-async function addJjim({ date, project_id, user_id }) {
+async function addJjim({ date, projectId, userId }) {
   const query = mysql.format("INSERT INTO jjim SET ?", {
     date,
-    project_id,
-    user_id,
+    project_id: projectId,
+    user_id: userId,
   });
   let [rows, fields] = await connection.query(query);
   return rows;
 }
 
 //찜 삭제
-async function deleteJjim({ project_id, user_id }) {
-  console.log(project_id, user_id);
+async function deleteJjim({ projectId, userId }) {
   const query = mysql.format(
-    `DELETE FROM jjim WHERE project_id = ${project_id} AND user_id = ${user_id}`
+    `DELETE FROM jjim WHERE project_id = ${projectId} AND user_id = ${userId}`
   );
   let [rows, fields] = await connection.query(query);
   return rows;
@@ -95,6 +107,7 @@ module.exports = {
   getPoint,
   chargePoint,
   getHistory,
+  addHistory,
   getCart,
   addCart,
   editCart,

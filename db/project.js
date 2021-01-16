@@ -1,5 +1,4 @@
 const connection = require("./connection");
-const mysql = require("mysql2");
 
 //곧 개봉될 프로젝트 조회
 async function getScheduleProject() {
