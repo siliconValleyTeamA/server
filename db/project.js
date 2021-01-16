@@ -45,7 +45,7 @@ async function getCategoryProject({ category, filterType }) {
       break;
   }
 
-  let [rows, fields] = await connection.query(query);
+  const [rows, fields] = await connection.query(query);
   return rows;
 }
 
@@ -59,7 +59,6 @@ async function getProjectDetail({ projectId }) {
 
 //프로젝트 찜 여부 조회
 async function getUserJjim({ projectId, userId }) {
-  console.log(projectId, userId);
   const [rows, fields] = await connection.query(
     `SELECT * from jjim INNER JOIN project ON project.id=jjim.project_id WHERE jjim.user_id=${userId} and project.id=${projectId}`
   );
