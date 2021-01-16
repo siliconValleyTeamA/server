@@ -1,27 +1,31 @@
 const connection = require("./connection");
 const mysql = require("mysql2");
 
+//곧 개봉될 프로젝트 조회
 async function getScheduleProject() {
-  let [rows, fields] = await connection.query(
+  const [rows, fields] = await connection.query(
     `SELECT * FROM project_detail WHERE open_left_days>=0`
   );
   return rows;
 }
 
+//곧 성골할 프로젝트 조회
 async function getSoonSuccessProject() {
-  let [rows, fields] = await connection.query(
+  const [rows, fields] = await connection.query(
     `SELECT * FROM project_detail WHERE percent>=80 and percent <100`
   );
   return rows;
 }
 
+//인기있는 프로젝트 조회
 async function getPopularProject() {
-  let [rows, fields] = await connection.query(
+  const [rows, fields] = await connection.query(
     `SELECT * FROM project_detail_popular WHERE end_date >= CURDATE()`
   );
   return rows;
 }
 
+//프로젝트를 카테고리, 필터별로 조회
 async function getCategoryProject({ category, filterType }) {
   let query = `SELECT * FROM project_detail`;
 
@@ -45,9 +49,19 @@ async function getCategoryProject({ category, filterType }) {
   return rows;
 }
 
+//프로젝트 상세내용 조회
 async function getProjectDetail({ projectId }) {
-  let [rows, fields] = await connection.query(
+  const [rows, fields] = await connection.query(
     `SELECT * FROM project_detail WHERE id = ${projectId}`
+  );
+  return rows;
+}
+
+//프로젝트 찜 여부 조회
+async function getUserJjim({ projectId, userId }) {
+  console.log(projectId, userId);
+  const [rows, fields] = await connection.query(
+    `SELECT * from jjim INNER JOIN project ON project.id=jjim.project_id WHERE jjim.user_id=${userId} and project.id=${projectId}`
   );
   return rows;
 }
@@ -57,5 +71,6 @@ module.exports = {
   getSoonSuccessProject,
   getPopularProject,
   getCategoryProject,
-  getProjectDetail
+  getProjectDetail,
+  getUserJjim,
 };
