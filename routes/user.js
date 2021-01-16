@@ -110,7 +110,7 @@ router.get("/jjim", async function (req, res, next) {
 
 //찜 추가
 router.post("/jjim", async function (req, res, next) {
-  const projectId = parseInt(req.body.projectId);
+  const projectId = req.body.projectId;
   const userId = 3;
   await addJjim({
     date: new Date(),
@@ -122,12 +122,7 @@ router.post("/jjim", async function (req, res, next) {
 
 //찜 삭제
 router.delete("/jjim", async function (req, res, next) {
-  const projectId = parseInt(req.body.projectId);
-  const userId = 3;
-  await deleteJjim({
-    projectId: projectId,
-    userId: userId,
-  });
+  await deleteJjim(req);
   res.json({ success: true });
 });
 

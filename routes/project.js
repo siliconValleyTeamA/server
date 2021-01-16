@@ -50,8 +50,8 @@ router.get("/:projectId/jjim", async function (req, res, next) {
   const projectId = req.params.projectId;
   const userId = 3;
   const rows = await getUserJjim({ projectId, userId });
-  if (rows.length != 0) res.json({ success: true });
-  res.json({ success: false });
+  if (rows.length != 0) res.json(rows[0]);
+  else res.json({ success: false });
 });
 
 module.exports = router;
