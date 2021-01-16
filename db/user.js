@@ -8,6 +8,14 @@ async function getPoint(req) {
   return rows;
 }
 
+async function chargePoint(req) {
+  const query = mysql.format(
+    `UPDATE user SET point=${req.body.data.point} WHERE id = ${req.user.id}`
+  );
+  let [rows, fields] = await connection.query(query);
+  return rows;
+}
+
 async function getHistory(req) {
   let [rows, fields] = await connection.query(
     `SELECT * FROM project INNER JOIN history ON project.id=history.project_id WHERE user_id=${req.user.id} ORDER BY DATE`
@@ -49,6 +57,7 @@ async function deleteCart(req) {
 
 module.exports = {
   getPoint,
+  chargePoint,
   getHistory,
   getCart,
   addCart,

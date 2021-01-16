@@ -8,6 +8,7 @@ const {
   addCart,
   editCart,
   deleteCart,
+  chargePoint,
 } = require("../db/user");
 
 router.post("/logout", function (req, res, next) {
@@ -20,6 +21,13 @@ router.get("/point", async function (req, res, next) {
   };
   const rows = await getPoint(req);
   res.json(rows[0].point);
+});
+
+router.put("/point", async function (req, res, next) {
+  req.user = {
+    id: 3,
+  };
+  await chargePoint(req);
 });
 
 router.get("/history", async function (req, res, next) {
