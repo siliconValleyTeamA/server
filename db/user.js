@@ -78,7 +78,7 @@ async function deleteCart(req) {
 //찜 조회
 async function getJjim(req) {
   let [rows, fields] = await connection.query(
-    `SELECT *,jjim.id as jjim_id FROM project INNER JOIN jjim ON project.id=jjim.project_id WHERE user_id=${req.user.id}`
+    `SELECT *,jjim.id as jjim_id FROM project_detail INNER JOIN jjim ON project_detail.id=jjim.project_id WHERE user_id=${req.user.id}`
   );
   return rows;
 }
@@ -95,10 +95,9 @@ async function addJjim({ date, projectId, userId }) {
 }
 
 //찜 삭제
-async function deleteJjim({ projectId, userId }) {
-  const query = mysql.format(
-    `DELETE FROM jjim WHERE project_id = ${projectId} AND user_id = ${userId}`
-  );
+async function deleteJjim(req) {
+  const jjimId = req.body.jjimId;
+  const query = mysql.format(`DELETE FROM jjim WHERE id = ${jjimId}`);
   let [rows, fields] = await connection.query(query);
   return rows;
 }
