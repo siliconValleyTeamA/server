@@ -12,8 +12,9 @@ async function getPoint(req) {
 //포인트 충전
 async function chargePoint(req) {
   const query = mysql.format(
-    `UPDATE user SET point=${req.body.data.point} WHERE id = ${req.user.id}`
+    `UPDATE user SET point=${req.body.point} WHERE id = ${req.user.id}`
   );
+  console.log(query)
   let [rows, fields] = await connection.query(query);
   return rows;
 }
