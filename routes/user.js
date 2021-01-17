@@ -53,11 +53,11 @@ router.get("/history", async function (req, res, next) {
 
 //펀딩 내역 추가
 router.post("/history", async function (req, res, next) {
-  const money = parseInt(req.body.money.replace(/,/g, ""));
+  const point = parseInt(req.body.point.replace(/,/g, ""));
   const projectId = parseInt(req.body.projectId);
   await addHistory({
     date: new Date(),
-    money: money,
+    money: point,
     projectId: projectId,
     userId: 3,
   });
@@ -75,11 +75,11 @@ router.get("/carts", async function (req, res, next) {
 
 //카트 추가
 router.post("/carts", async function (req, res, next) {
-  const money = parseInt(req.body.money.replace(/,/g, ""));
+  const point = parseInt(req.body.point.replace(/,/g, ""));
   const projectId = parseInt(req.body.projectId);
   await addCart({
     date: new Date(),
-    money: money,
+    money: point,
     projectId: projectId,
     userId: 3,
   });

@@ -14,7 +14,7 @@ async function chargePoint(req) {
   const query = mysql.format(
     `UPDATE user SET point=${req.body.point} WHERE id = ${req.user.id}`
   );
-  console.log(query)
+  console.log(query);
   let [rows, fields] = await connection.query(query);
   return rows;
 }
@@ -29,10 +29,9 @@ async function getHistory(req) {
 
 //펀딩 내역 추가
 async function addHistory({ date, money, projectId, userId }) {
-  console.log(date, money, projectId, userId);
   const query = mysql.format("INSERT INTO history SET ?", {
     date,
-    money,
+    money: money,
     project_id: projectId,
     user_id: userId,
   });
