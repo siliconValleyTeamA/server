@@ -37,6 +37,7 @@ router.put("/point", async function (req, res, next) {
   req.user = {
     id: 3,
   };
+  console.log(req.body);
   await chargePoint(req);
   res.json({ success: true });
 });
@@ -87,8 +88,8 @@ router.post("/carts", async function (req, res, next) {
 
 //카트 수정
 router.put("/carts", async function (req, res, next) {
-  const point = parseInt(req.body.data.point.replace(/,/g, ""));
-  const cartId = req.body.data.cartId;
+  const point = parseInt(req.body.point.replace(/,/g, ""));
+  const cartId = req.body.cartId;
   await editCart({ point, cartId });
   res.json({ success: true });
 });
