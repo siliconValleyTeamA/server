@@ -21,19 +21,12 @@ router.get("/", function (req, res, next) {
 
 //포인트 조회
 router.get("/point", async function (req, res, next) {
-  req.user = {
-    id: 3,
-  };
   const rows = await getPoint(req);
   res.json(rows[0].point);
 });
 
 //포인트 충전
 router.put("/point", async function (req, res, next) {
-  req.user = {
-    id: 3,
-  };
-  console.log(req.body);
   await chargePoint(req);
   res.json({ success: true });
 });
@@ -55,16 +48,13 @@ router.post("/history", async function (req, res, next) {
     date: new Date(),
     money: point,
     projectId: projectId,
-    userId: 3,
+    userId: req.user.id,
   });
   res.json({ success: true });
 });
 
 //카트 조회
 router.get("/carts", async function (req, res, next) {
-  req.user = {
-    id: 3,
-  };
   const rows = await getCart(req);
   res.json(rows);
 });
@@ -77,7 +67,7 @@ router.post("/carts", async function (req, res, next) {
     date: new Date(),
     money: point,
     projectId: projectId,
-    userId: 3,
+    userId: req.user.id,
   });
   res.json({ success: true });
 });
@@ -98,9 +88,6 @@ router.delete("/carts", async function (req, res, next) {
 
 //찜 조회
 router.get("/jjim", async function (req, res, next) {
-  req.user = {
-    id: 3,
-  };
   const rows = await getJjim(req);
   res.json(rows);
 });
@@ -108,7 +95,7 @@ router.get("/jjim", async function (req, res, next) {
 //찜 추가
 router.post("/jjim", async function (req, res, next) {
   const projectId = req.body.projectId;
-  const userId = 3;
+  const userId = req.user.id;
   await addJjim({
     date: new Date(),
     projectId: projectId,
