@@ -48,7 +48,7 @@ router.get("/:projectId", async function (req, res, next) {
 //프로젝트 찜 여부 조회
 router.get("/:projectId/jjim", async function (req, res, next) {
   const projectId = req.params.projectId;
-  const userId = 3;
+  const userId = req.user.id;
   const rows = await getUserJjim({ projectId, userId });
   if (rows.length != 0) res.json(rows[0]);
   else res.json({ success: false });
