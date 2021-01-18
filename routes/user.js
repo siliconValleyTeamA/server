@@ -15,12 +15,8 @@ const {
   deleteJjim,
 } = require("../db/user");
 
-router.post("/logout", function (req, res, next) {
-  res.json({ test: "success" });
-});
-
-router.post("/login", function (req, res, next) {
-  res.json({ test: "success" });
+router.get("/", function (req, res, next) {
+  res.json(req.user);
 });
 
 //포인트 조회
