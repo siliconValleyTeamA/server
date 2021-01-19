@@ -28,8 +28,13 @@ router.get(
   "/github/callback",
   passport.authenticate("github", {
     failureRedirect: "http://localhost:3000/mypage",
-    successRedirect: "http://localhost:3000",
+    successRedirect: "http://localhost:3000/mypage",
   })
 );
+
+router.get("/logout", function (req, res) {
+  req.logout();
+  res.json({ success: true });
+});
 
 module.exports = router;
