@@ -2,3 +2,5 @@ node_modules
 dist/*
 *.log
 db/config.json
+auth.json
+secret.json
