@@ -10,15 +10,16 @@ const github = new GitHubStrategy(
   },
 
   async function (accessToken, refreshToken, user, done) {
+    console.log(user);
     const result = await findUser({
       name: user.displayName,
       github_id: user.username ? user.username : "",
     });
     if (!result.length) {
       await createUser({
-        name: result.displayName,
-        github_id: result.username ? result.username : "",
-        image: result.photos[0].value,
+        name: user.displayName,
+        github_id: user.username ? user.username : "",
+        image: user.photos[0].value ? user.photos[0].value : "",
       });
     }
     return done(false, {
