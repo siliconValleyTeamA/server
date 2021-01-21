@@ -11,6 +11,7 @@ const {
 } = require("../db/project");
 
 const multer =require('multer');
+const connection = require("../db/connection");
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -27,7 +28,17 @@ var storage = multer.diskStorage({
       cb(null, true)
   }
 })
+
 var upload = multer({ storage: storage }).single("file")
+
+router.post("/uploadimage", async function (req, res,next){
+  upload(req, res, err => {
+    if (err) {
+        return res.json({ success: false, err })
+    }
+    return res.json({ success: true, image: res.req.file.path, fileName: res.req.file.filename })
+})
+});
 
 //곧 개봉될 프로젝트 조회
 router.get("/schedule", async function (req, res, next) {
@@ -73,15 +84,21 @@ router.get("/:projectId/jjim", async function (req, res, next) {
   else res.json({ success: false });
 });
 
-router.post("/uploadproject", async function (req, res,next){
-  console.log("before upload");
-  upload(req, res, err => {
-    console.log("im in upload");
-    if (err) {
-        return res.json({ success: false, err })
-    }
-    return res.json({ success: true, image: res.req.file.path, fileName: res.req.file.filename })
-})
+router.post("/uploadproject", async function(req ,res ,next){
+  const title= req.body.title;
+  const company= req.body.company;
+  const goalmoney= req.body.goalmoney;
+  const start_date= req.body.start_date;
+  const end_date= req.body.end_date;
+  const description= req.body.description;
+  const price= req.body.price;
+  const images= req.body.images;
+  const category= req.body.category; 
+  connection.query(
+    `INSERT INTO project(title, company,goal_money,start_date,end_date,category_id ,image,description) VALUES('${title}','${company}','${goalmoney}','${start_date}','${end_date}','${category}','${images}','${description}')`
+  )  
 });
+
+
 
 module.exports = router;
