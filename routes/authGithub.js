@@ -10,7 +10,6 @@ const github = new GitHubStrategy(
   },
 
   async function (accessToken, refreshToken, user, done) {
-    console.log(user);
     const result = await findUser({
       name: user.displayName,
       github_id: user.username ? user.username : "",
