@@ -33,9 +33,6 @@ router.put("/point", async function (req, res, next) {
 
 //펀딩 내역 조회
 router.get("/history", async function (req, res, next) {
-  req.user = {
-    id: 3,
-  };
   const rows = await getHistory(req);
   res.json(rows);
 });
