@@ -63,6 +63,13 @@ async function getUserJjim({ projectId, userId }) {
   );
   return rows;
 }
+//프로젝트 추가 
+async function addProject({ title, company, goalmoney, start_date, end_date, category, images, description }) {
+  const [rows, fields] = await connection.query(
+      `INSERT INTO project(title, company,goal_money,start_date,end_date,category_id ,image,description) VALUES('${title}','${company}','${goalmoney}','${start_date}','${end_date}','${category}','${images}','${description}')`
+  )
+  return rows;
+}
 
 module.exports = {
   getScheduleProject,
@@ -71,4 +78,5 @@ module.exports = {
   getCategoryProject,
   getProjectDetail,
   getUserJjim,
+  addProject,
 };
