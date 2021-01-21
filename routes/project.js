@@ -96,7 +96,7 @@ router.post("/uploadproject", async function(req ,res ,next){
   const category= req.body.category; 
   connection.query(
     `INSERT INTO project(title, company,goal_money,start_date,end_date,category_id ,image,description) VALUES('${title}','${company}','${goalmoney}','${start_date}','${end_date}','${category}','${images}','${description}')`
-  )  
+  )
 });
 
 
