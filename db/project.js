@@ -73,6 +73,7 @@ async function addProject({
   endDate,
   categoryId,
   image,
+  description
 }) {
   const query = mysql.format("INSERT INTO project SET ?", {
     title: title,
@@ -82,6 +83,7 @@ async function addProject({
     end_date: endDate,
     category_id: categoryId,
     image: image,
+    description: description
   });
   const [rows, fields] = await connection.query(query);
   return rows;
