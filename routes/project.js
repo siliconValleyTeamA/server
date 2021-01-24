@@ -11,38 +11,8 @@ const {
   addProject,
 } = require("../db/project");
 
-const multer = require("multer");
-const multerS3 = require('multer-s3');
-const aws = require('aws-sdk');
-const s3connect = require('./s3config');
-const s3 = new aws.S3(s3connect);
+const { upload } = require("./multerS3");
 
-const upload = multer({
-  storage: multerS3({
-      s3: s3,
-      bucket: 'fuding-bucket',
-      acl: 'public-read',
-      key: function(req, file, cb) {
-          cb(null, Math.floor(Math.random() * 1000).toString() + Date.now() + '.' + file.originalname.split('.').pop());
-      }
-  }),
-  limits: {
-      fileSize: 1000 * 1000 * 10
-  }
-}).single("file");
-
-router.post("/uploadimage", async function (req, res, next) {
-  upload(req, res, (err) => {
-    if (err) {
-      return res.json({ success: false, err });
-    }
-    return res.json({
-      success: true,
-      image: res.req.file.location,
-      fileName: res.req.file.originalname,
-    });
-  });
-});
 //곧 개봉될 프로젝트 조회
 router.get("/schedule", async function (req, res, next) {
   res.json(await getScheduleProject());
@@ -87,6 +57,7 @@ router.get("/:projectId/jjim", async function (req, res, next) {
   else res.json({ success: false });
 });
 
+// 프로젝트 등록시 프로젝트 정보 업로드
 router.post("/projectinfo", async function (req, res, next) {
   const goalMoney = parseInt(req.body.goalMoney);
   await addProject({
@@ -96,9 +67,20 @@ router.post("/projectinfo", async function (req, res, next) {
     startDate: req.body.startDate,
     endDate: req.body.endDate,
     categoryId: req.body.categoryId,
-    image: req.body.images
+    image: req.body.images,
   });
   res.json({ success: true });
+});
+
+// 프로젝트 등록시 이미지 업로드
+router.post("/uploadimage", async function (req, res, next) {
+  upload(req, res, (err) => {
+    res.json({
+      success: true,
+      image: res.req.file.location,
+      fileName: res.req.file.originalname,
+    });
+  });
 });
 
 module.exports = router;
