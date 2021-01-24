@@ -87,17 +87,16 @@ router.get("/:projectId/jjim", async function (req, res, next) {
   else res.json({ success: false });
 });
 
-router.post("/uploadproject", async function (req, res, next) {
-  const goalMoney = parseInt(req.body.goalmoney);
+router.post("/projectinfo", async function (req, res, next) {
+  const goalMoney = parseInt(req.body.goalMoney);
   await addProject({
     title: req.body.title,
     company: req.body.company,
     goalMoney: goalMoney,
-    startDate: req.body.start_date,
-    endDate: req.body.end_date,
-    categoryId: req.body.category,
-    image: req.body.images,
-    description: req.body.description
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    categoryId: req.body.categoryId,
+    image: req.body.images
   });
   res.json({ success: true });
 });
