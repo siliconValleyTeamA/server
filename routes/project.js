@@ -12,24 +12,24 @@ const {
 } = require("../db/project");
 
 const multer = require("multer");
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
+const s3connect = require('./s3config');
+const s3 = new aws.S3(s3connect);
 
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`);
-  },
-  fileFilter: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    if (ext !== ".jpg" || ext !== ".png") {
-      return cb(res.status(400).end("only jpg, png are allowed"), false);
-    }
-    cb(null, true);
-  },
-});
-
-var upload = multer({ storage: storage }).single("file");
+const upload = multer({
+  storage: multerS3({
+      s3: s3,
+      bucket: 'fuding-bucket',
+      acl: 'public-read',
+      key: function(req, file, cb) {
+          cb(null, Math.floor(Math.random() * 1000).toString() + Date.now() + '.' + file.originalname.split('.').pop());
+      }
+  }),
+  limits: {
+      fileSize: 1000 * 1000 * 10
+  }
+}).single("file");
 
 router.post("/uploadimage", async function (req, res, next) {
   upload(req, res, (err) => {
@@ -38,8 +38,8 @@ router.post("/uploadimage", async function (req, res, next) {
     }
     return res.json({
       success: true,
-      image: res.req.file.path,
-      fileName: res.req.file.filename,
+      image: res.req.file.location,
+      fileName: res.req.file.originalname,
     });
   });
 });
@@ -87,16 +87,17 @@ router.get("/:projectId/jjim", async function (req, res, next) {
   else res.json({ success: false });
 });
 
-router.post("/projectinfo", async function (req, res, next) {
-  const goalMoney = parseInt(req.body.goalMoney);
+router.post("/uploadproject", async function (req, res, next) {
+  const goalMoney = parseInt(req.body.goalmoney);
   await addProject({
     title: req.body.title,
     company: req.body.company,
     goalMoney: goalMoney,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate,
-    categoryId: req.body.categoryId,
-    image: "",
+    startDate: req.body.start_date,
+    endDate: req.body.end_date,
+    categoryId: req.body.category,
+    image: req.body.images,
+    description: req.body.description
   });
   res.json({ success: true });
 });

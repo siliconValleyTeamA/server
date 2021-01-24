@@ -4,3 +4,4 @@ dist/*
 db/config.json
 auth.json
 secret.json
+routes/s3config.json
