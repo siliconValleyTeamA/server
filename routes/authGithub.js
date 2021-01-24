@@ -16,7 +16,7 @@ const github = new GitHubStrategy(
     });
     if (!result.length) {
       await createUser({
-        name: user.displayName,
+        name: user.displayName ? user.username : "",
         github_id: user.username ? user.username : "",
         image: user.photos[0].value ? user.photos[0].value : "",
       });
