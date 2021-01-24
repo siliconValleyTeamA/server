@@ -1,4 +1,5 @@
 const connection = require("./connection");
+const mysql = require("mysql2");
 
 //곧 개봉될 프로젝트 조회
 async function getScheduleProject() {
@@ -63,11 +64,26 @@ async function getUserJjim({ projectId, userId }) {
   );
   return rows;
 }
-//프로젝트 추가 
-async function addProject({ title, company, goalmoney, start_date, end_date, category, images, description }) {
-  const [rows, fields] = await connection.query(
-      `INSERT INTO project(title, company,goal_money,start_date,end_date,category_id ,image,description) VALUES('${title}','${company}','${goalmoney}','${start_date}','${end_date}','${category}','${images}','${description}')`
-  )
+//프로젝트 추가
+async function addProject({
+  title,
+  company,
+  goalMoney,
+  startDate,
+  endDate,
+  categoryId,
+  image,
+}) {
+  const query = mysql.format("INSERT INTO project SET ?", {
+    title: title,
+    company: company,
+    goal_money: goalMoney,
+    start_date: startDate,
+    end_date: endDate,
+    category_id: categoryId,
+    image: image,
+  });
+  const [rows, fields] = await connection.query(query);
   return rows;
 }
 
