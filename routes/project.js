@@ -60,6 +60,10 @@ router.get("/:projectId/jjim", async function (req, res, next) {
 // 프로젝트 등록시 프로젝트 정보 업로드
 router.post("/projectinfo", async function (req, res, next) {
   const goalMoney = parseInt(req.body.goalMoney);
+  let images = "";
+  const imageCollection = req.body.images.map(function (image) {
+    images += "&" + image.filename;
+  });
   await addProject({
     title: req.body.title,
     company: req.body.company,
@@ -67,20 +71,20 @@ router.post("/projectinfo", async function (req, res, next) {
     startDate: req.body.startDate,
     endDate: req.body.endDate,
     categoryId: req.body.categoryId,
-    image: req.body.images,
+    image: images,
   });
   res.json({ success: true });
 });
 
 // 프로젝트 등록시 이미지 업로드
-router.post("/uploadimage", async function (req, res, next) {
-  upload(req, res, (err) => {
+router.post(
+  "/uploadimage",
+  upload.single("file"),
+  async function (req, res, next) {
     res.json({
-      success: true,
-      image: res.req.file.location,
-      fileName: res.req.file.originalname,
+      image: req.file.location,
     });
-  });
-});
+  }
+);
 
 module.exports = router;
