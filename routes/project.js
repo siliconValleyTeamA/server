@@ -61,9 +61,13 @@ router.get("/:projectId/jjim", async function (req, res, next) {
 router.post("/projectinfo", async function (req, res, next) {
   const goalMoney = parseInt(req.body.goalMoney);
   let images = "";
-  const imageCollection = req.body.images.map(function (image) {
-    images += "&" + image.filename;
+  const imageCollection = req.body.images.map(function (imageObj) {
+    images += imageObj.filename + "&";
   });
+  /*let text = "";
+  const textCollection = req.body.description.map(function (textObj) {
+    text += textObj.idx + "&";
+  });*/
   await addProject({
     title: req.body.title,
     company: req.body.company,
@@ -72,6 +76,7 @@ router.post("/projectinfo", async function (req, res, next) {
     endDate: req.body.endDate,
     categoryId: req.body.categoryId,
     image: images,
+    description: req.body.description,
   });
   res.json({ success: true });
 });
