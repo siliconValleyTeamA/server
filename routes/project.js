@@ -64,10 +64,6 @@ router.post("/projectinfo", async function (req, res, next) {
   const imageCollection = req.body.images.map(function (imageObj) {
     images += imageObj.filename + "&";
   });
-  /*let text = "";
-  const textCollection = req.body.description.map(function (textObj) {
-    text += textObj.idx + "&";
-  });*/
   await addProject({
     title: req.body.title,
     company: req.body.company,
