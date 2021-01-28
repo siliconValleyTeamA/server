@@ -57,7 +57,7 @@ async function getProjectDetail({ projectId }) {
   return rows;
 }
 
-// 프로젝트 이미지, 설명 조회 
+// 프로젝트 이미지, 설명 조회
 async function getImageDescription({ projectId }) {
   const [rows, fields] = await connection.query(
     `SELECT * FROM project_description WHERE project_id = ${projectId}`
@@ -81,20 +81,51 @@ async function addProject({
   endDate,
   categoryId,
   image,
-  description
+  description,
+  language,
+  projectId,
 }) {
-  const query = mysql.format("INSERT INTO project SET ?", {
-    title: title,
-    company: company,
-    goal_money: goalMoney,
-    start_date: startDate,
-    end_date: endDate,
-    category_id: categoryId,
+  if (projectId === 0) {
+    const query = mysql.format("INSERT INTO project SET ?", {
+      title: title,
+      company: company,
+      goal_money: goalMoney,
+      start_date: startDate,
+      end_date: endDate,
+      category_id: categoryId,
+    });
+
+    await connection.query(query);
+
+    const [rows, _] = await connection.query(
+      `SELECT MAX(id) AS projectId FROM project`
+    );
+    addProjectDescription({
+      image,
+      description,
+      language,
+      projectId: rows[0].projectId,
+    });
+    return rows[0].projectId;
+  } else {
+    addProjectDescription({ image, description, language, projectId });
+    return 0;
+  }
+}
+
+async function addProjectDescription({
+  image,
+  description,
+  language,
+  projectId,
+}) {
+  const query = mysql.format("INSERT INTO project_description SET ?", {
     image: image,
-    description: description
+    description: description,
+    language: language,
+    project_id: projectId,
   });
-  const [rows, fields] = await connection.query(query);
-  return rows;
+  await connection.query(query);
 }
 
 module.exports = {
