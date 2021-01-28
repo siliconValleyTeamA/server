@@ -9,6 +9,7 @@ const {
   getProjectDetail,
   getUserJjim,
   addProject,
+  getImageDescription,
 } = require("../db/project");
 
 const { upload } = require("./multerS3");
@@ -46,6 +47,13 @@ router.get(
 router.get("/:projectId", async function (req, res, next) {
   const projectId = req.params.projectId;
   res.json(await getProjectDetail({ projectId }));
+});
+
+// 프로젝트 이미지&설명 조회
+router.get("/:projectId/:language", async function (req, res, next) {
+  const projectId = req.params.projectId;
+  const language = req.params.language;
+  res.json(await getImageDescription({ projectId }));
 });
 
 //프로젝트 찜 여부 조회

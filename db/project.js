@@ -57,6 +57,14 @@ async function getProjectDetail({ projectId }) {
   return rows;
 }
 
+// 프로젝트 이미지, 설명 조회 
+async function getImageDescription({ projectId }) {
+  const [rows, fields] = await connection.query(
+    `SELECT * FROM project_description WHERE project_id = ${projectId}`
+  );
+  return rows;
+}
+
 //프로젝트 찜 여부 조회
 async function getUserJjim({ projectId, userId }) {
   const [rows, fields] = await connection.query(
@@ -97,4 +105,5 @@ module.exports = {
   getProjectDetail,
   getUserJjim,
   addProject,
+  getImageDescription,
 };
