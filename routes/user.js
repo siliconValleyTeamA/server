@@ -3,8 +3,8 @@ var router = express.Router();
 
 const {
   getPoint,
-  getHistory,
-  addHistory,
+  getInvestment,
+  addInvestment,
   getCart,
   addCart,
   editCart,
@@ -32,16 +32,16 @@ router.put("/point", async function (req, res, next) {
 });
 
 //펀딩 내역 조회
-router.get("/history", async function (req, res, next) {
-  const rows = await getHistory(req);
+router.get("/investment", async function (req, res, next) {
+  const rows = await getInvestment(req);
   res.json(rows);
 });
 
 //펀딩 내역 추가
-router.post("/history", async function (req, res, next) {
+router.post("/investment", async function (req, res, next) {
   const point = parseInt(req.body.point.replace(/,/g, ""));
   const projectId = parseInt(req.body.projectId);
-  await addHistory({
+  await addInvestment({
     date: new Date(),
     money: point,
     projectId: projectId,
@@ -58,11 +58,12 @@ router.get("/carts", async function (req, res, next) {
 
 //카트 추가
 router.post("/carts", async function (req, res, next) {
-  const point = parseInt(req.body.point.replace(/,/g, ""));
+  const money = parseInt(req.body.money.replace(/,/g, ""));
   const projectId = parseInt(req.body.projectId);
   await addCart({
-    date: new Date(),
-    money: point,
+    cart_date: new Date(),
+    money: money,
+    money_scale: "$",
     projectId: projectId,
     userId: req.user.id,
   });
@@ -71,9 +72,9 @@ router.post("/carts", async function (req, res, next) {
 
 //카트 수정
 router.put("/carts", async function (req, res, next) {
-  const point = parseInt(req.body.point.replace(/,/g, ""));
+  const money = parseInt(req.body.money.replace(/,/g, ""));
   const cartId = req.body.cartId;
-  await editCart({ point, cartId });
+  await editCart({ money, cartId });
   res.json({ success: true });
 });
 
@@ -94,7 +95,8 @@ router.post("/jjim", async function (req, res, next) {
   const projectId = req.body.projectId;
   const userId = req.user.id;
   await addJjim({
-    date: new Date(),
+    jjim_date: new Date(),
+    investment: "N",
     projectId: projectId,
     userId: userId,
   });

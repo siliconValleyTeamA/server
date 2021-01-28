@@ -19,16 +19,16 @@ async function chargePoint(req) {
 }
 
 //펀딩 내역 조회
-async function getHistory(req) {
+async function getInvestment(req) {
   let [rows, fields] = await connection.query(
-    `SELECT * FROM project INNER JOIN history ON project.id=history.project_id WHERE user_id=${req.user.id} ORDER BY DATE`
+    `SELECT * FROM project INNER JOIN investment ON project.id=investment.project_id WHERE user_id=${req.user.id} ORDER BY DATE`
   );
   return rows;
 }
 
 //펀딩 내역 추가
-async function addHistory({ date, money, projectId, userId }) {
-  const query = mysql.format("INSERT INTO history SET ?", {
+async function addInvestment({ date, money, projectId, userId }) {
+  const query = mysql.format("INSERT INTO investment SET ?", {
     date,
     money: money,
     project_id: projectId,
@@ -47,10 +47,11 @@ async function getCart(req) {
 }
 
 //카트 추가
-async function addCart({ date, money, projectId, userId }) {
+async function addCart({ cart_date, money, money_scale, projectId, userId }) {
   const query = mysql.format("INSERT INTO cart SET ?", {
-    date,
+    cart_date,
     money,
+    money_scale,
     project_id: projectId,
     user_id: userId,
   });
@@ -59,9 +60,9 @@ async function addCart({ date, money, projectId, userId }) {
 }
 
 //카트 수정
-async function editCart({ point, cartId }) {
+async function editCart({ money, cartId }) {
   const query = mysql.format(
-    `UPDATE cart SET money=${point} WHERE id = ${cartId}`
+    `UPDATE cart SET money=${money} WHERE id = ${cartId}`
   );
   let [rows, fields] = await connection.query(query);
   return rows;
@@ -83,9 +84,10 @@ async function getJjim(req) {
 }
 
 //찜 추가
-async function addJjim({ date, projectId, userId }) {
+async function addJjim({ jjim_date, investment, projectId, userId }) {
   const query = mysql.format("INSERT INTO jjim SET ?", {
-    date,
+    jjim_date,
+    investment,
     project_id: projectId,
     user_id: userId,
   });
@@ -104,8 +106,8 @@ async function deleteJjim(req) {
 module.exports = {
   getPoint,
   chargePoint,
-  getHistory,
-  addHistory,
+  getInvestment,
+  addInvestment,
   getCart,
   addCart,
   editCart,
