@@ -72,7 +72,9 @@ router.post("/projectinfo", async function (req, res, next) {
   const imageCollection = req.body.images.map(function (imageObj) {
     images += imageObj.filename + "&";
   });
-  await addProject({
+  const language = req.body.language.split("-")[0];
+  const project_id = parseInt(req.body.language.split("-")[1]);
+  id = await addProject({
     title: req.body.title,
     company: req.body.company,
     goalMoney: goalMoney,
@@ -81,8 +83,13 @@ router.post("/projectinfo", async function (req, res, next) {
     categoryId: req.body.categoryId,
     image: images,
     description: req.body.description,
+    language: language,
+    projectId: project_id,
   });
-  res.json({ success: true });
+  res.json({
+    success: true,
+    projectId: id,
+  });
 });
 
 // 프로젝트 등록시 이미지 업로드
