@@ -38,14 +38,10 @@ router.get("/investment", async function (req, res, next) {
 });
 
 //펀딩 내역 추가
-router.post("/investment", async function (req, res, next) {
-  const point = parseInt(req.body.point.replace(/,/g, ""));
-  const projectId = parseInt(req.body.projectId);
+router.post("/investment", async function (req, res, next) { 
+  const projectId = parseInt(req.body.cartId);
   await addInvestment({
-    date: new Date(),
-    money: point,
     projectId: projectId,
-    userId: req.user.id,
   });
   res.json({ success: true });
 });
