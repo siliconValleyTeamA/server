@@ -21,27 +21,26 @@ async function chargePoint(req) {
 //펀딩 내역 조회
 async function getInvestment(req) {
   let [rows, fields] = await connection.query(
-    `SELECT * FROM project INNER JOIN investment ON project.id=investment.project_id WHERE user_id=${req.user.id} ORDER BY DATE`
+    `SELECT * FROM project_detail INNER JOIN investment ON project_detail.id=investment.project_id WHERE user_id=${req.user.id} ORDER BY investment_date`
   );
   return rows;
 }
 
+
 //펀딩 내역 추가
-async function addInvestment({ date, money, projectId, userId }) {
-  const query = mysql.format("INSERT INTO investment SET ?", {
-    date,
-    money: money,
-    project_id: projectId,
-    user_id: userId,
-  });
+async function addInvestment({ projectId }) {
+  const query=mysql.format( `INSERT INTO investment ( investment_date,money, money_scale, project_id, user_id)
+  SELECT DATE_FORMAT(NOW(),'%Y-%m-%d'),cart.money, cart.money_scale, cart.project_id, cart.user_id
+  FROM cart WHERE id=${projectId};`   
+  );
   let [rows, fields] = await connection.query(query);
   return rows;
 }
 
 //카트 조회
 async function getCart(req) {
-  let [rows, fields] = await connection.query(
-    `SELECT *,cart.id as cart_id FROM project INNER JOIN cart ON project.id=cart.project_id WHERE user_id=${req.user.id}`
+  let [rows, fields] = await connection.query(   
+    `SELECT *,cart.id as cart_id FROM project_detail INNER JOIN cart ON project_detail.id=cart.project_id WHERE user_id=${req.user.id}`
   );
   return rows;
 }
