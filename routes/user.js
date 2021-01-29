@@ -42,7 +42,7 @@ router.post("/investment", async function (req, res, next) {
   const point = parseInt(req.body.point.replace(/,/g, ""));
   const projectId = parseInt(req.body.projectId);
   await addInvestment({
-    date: new Date(),
+    investment_date: new Date(),
     money: point,
     projectId: projectId,
     userId: req.user.id,
