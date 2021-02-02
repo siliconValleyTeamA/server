@@ -11,6 +11,7 @@ var projectRouter = require("./routes/project");
 var userRouter = require("./routes/user");
 var categoryRouter = require("./routes/category");
 var authRouter = require("./routes/auth");
+var searchRouter= require("./routes/search");
 
 let corsOptions = {
   origin: "http://localhost:3000",
@@ -46,6 +47,7 @@ app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/auth", authRouter);
 app.use('/uploads', express.static('uploads'));
+app.use('/api/search', searchRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
