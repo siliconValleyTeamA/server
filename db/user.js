@@ -1,23 +1,6 @@
 const connection = require("./connection");
 const mysql = require("mysql2");
 
-//포인트 조회
-async function getPoint(req) {
-  let [rows, fields] = await connection.query(
-    `SELECT point FROM user WHERE id=${req.user.id}`
-  );
-  return rows;
-}
-
-//포인트 충전
-async function chargePoint(req) {
-  const query = mysql.format(
-    `UPDATE user SET point=${req.body.point} WHERE id = ${req.user.id}`
-  );
-  let [rows, fields] = await connection.query(query);
-  return rows;
-}
-
 //펀딩 내역 조회
 async function getInvestment(req) {
   let [rows, fields] = await connection.query(
@@ -103,8 +86,6 @@ async function deleteJjim(req) {
 }
 
 module.exports = {
-  getPoint,
-  chargePoint,
   getInvestment,
   addInvestment,
   getCart,

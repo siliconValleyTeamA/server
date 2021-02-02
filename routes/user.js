@@ -2,14 +2,12 @@ var express = require("express");
 var router = express.Router();
 
 const {
-  getPoint,
   getInvestment,
   addInvestment,
   getCart,
   addCart,
   editCart,
   deleteCart,
-  chargePoint,
   getJjim,
   addJjim,
   deleteJjim,
@@ -17,18 +15,6 @@ const {
 
 router.get("/", function (req, res, next) {
   res.json(req.user);
-});
-
-//포인트 조회
-router.get("/point", async function (req, res, next) {
-  const rows = await getPoint(req);
-  res.json(rows[0].point);
-});
-
-//포인트 충전
-router.put("/point", async function (req, res, next) {
-  await chargePoint(req);
-  res.json({ success: true });
 });
 
 //펀딩 내역 조회

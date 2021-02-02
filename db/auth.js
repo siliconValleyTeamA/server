@@ -13,7 +13,6 @@ async function findUser({ name, github_id }) {
 async function createUser({ name, github_id, image }) {
   const query = mysql.format("INSERT INTO user SET ?", {
     name,
-    point: 10000,
     image,
     type: 0,
     github_id,
