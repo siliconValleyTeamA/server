@@ -17,7 +17,7 @@ function ElasticSearchClient(body) {
     // perform the actual search passing in the index, the search query and the type
     //console.log(JSON.parse(body.search));
     
-  return client.search({index: 'project', body: body});
+  return client.search({index: 'project_detail', body: body});
 }
 
 //모든 카테고리 조회
