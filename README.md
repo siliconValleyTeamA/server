@@ -85,6 +85,14 @@ Then, you can access to your server http://localhost:8080
 - ![title](https://img.shields.io/badge/-Express-191919?&logo=Node.js&logoColor=white)
 - ![title](https://img.shields.io/badge/-MySQL-4479A1?&logo=MySQL&logoColor=white)
 
+**ETC**
+
+- ![title](https://img.shields.io/badge/-EC2-232F3E?&logo=Amazon-AWS&logoColor=white)
+- ![title](https://img.shields.io/badge/-Github-181717?&logo=Github&logoColor=white)
+- ![title](https://img.shields.io/badge/-Slack-4A154B?&logo=Slack&logoColor=white)
+
+---
+
 ## 프로젝트 구조
 
 ```bash
