@@ -11,7 +11,7 @@ Project Funding Service
 
 ---
 
-## 🧞Quick Start 1
+## 🧞Quick Start 
 
 ### 1. Clone & Install Packages
 
@@ -67,7 +67,7 @@ auth.json
 }
 ```
 
-### 4. Run develop server
+### 3. Run develop server
 
 ```bash
 npm run dev
