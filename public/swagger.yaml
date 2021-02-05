@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Puding API
-  description: Puding API
+  title: Pudding API
+  description: Pudidng API
   version: 1.0.0
 servers:
   - url: http://localhost:8080/
@@ -16,57 +16,99 @@ tags:
   - name: cart
     description: Cart for user
 paths:
-  /api:
+  /api/auth/github:
     get:
       tags:
         - user
-      summary: user page
-      operationId: getUserPageByUserId
+      summary: github login
+      operationId: getLogIn
       responses:
         default:
           description: successful operation
-  /api/user/login:
+  /api/auth/github/callback:
     post:
       tags:
         - user
-      summary: Logs user into the system
-      operationId: postLogIn
-      parameters:
-        - name: userId
-          in: query
-          description: The user id for login
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
+      summary: github login callback
+      operationId: getLogIn callback
       responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200'
-        '400':
+        default:
+          description: successful operation'
+        "400":
           description: Invalid userId supplied
-        '404':
+        "404":
           description: User not found
-        '5XX':
+        "5XX":
           description: Unexpected error.
-  /api/user/logout:
+  /api/auth/logout:
     get:
       tags:
         - user
-      summary: Logs out current logged in user session
+      summary: github logout
       operationId: getLogOut
       responses:
-        '200':
+        default:
+          description: successful operation'
+  /api/category:
+    get:
+      tags:
+        - category
+      summary: Get category list
+      operationId: getCategoryList
+      responses:
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                $ref: "#/components/schemas/CategoryListArray"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/CategoryListArray"
+        "404":
+          description: Category not found
+        "5XX":
+          description: Unexpected error.
+  /api/user:
+    get:
+      tags:
+        - user
+      summary: get user
+      operationId: getUser
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
   /api/user/jjim:
+    post:
+      tags:
+        - user
+      summary: push project in user jjim list
+      operationId: addJjim
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserJjimArray"
+        "400":
+          description: Invalid userId supplied
+        "404":
+          description: User not found
+        "5XX":
+          description: Unexpected error.
     get:
       tags:
         - user
@@ -82,21 +124,38 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserJjimArray'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UserJjimArray'
-        '400':
+                $ref: "#/components/schemas/UserJjimArray"
+        "400":
           description: Invalid userId supplied
-        '404':
+        "404":
           description: User not found
-        '5XX':
+        "5XX":
           description: Unexpected error.
+    delete:
+      tags:
+        - user
+      summary: remove project in user jjim list
+      operationId: deleteJjim
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserJjimArray"
   /api/user/carts:
     post:
       tags:
@@ -112,24 +171,24 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartListArray'
+                $ref: "#/components/schemas/CartListArray"
     get:
       tags:
         - cart
       summary: Get project list in cart
       operationId: getProjectListInCartAPI
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartListArray'
+                $ref: "#/components/schemas/CartListArray"
     delete:
       tags:
         - cart
@@ -144,12 +203,12 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartListArray'
+                $ref: "#/components/schemas/CartListArray"
     put:
       tags:
         - cart
@@ -171,18 +230,18 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CartListArray'
-  /api/user/{userId}/history:
+                $ref: "#/components/schemas/CartListArray"
+  /api/user/investment:
     get:
       tags:
         - user
-      summary: Get user history list by user id
-      operationId: getUserHistoryById
+      summary: Get user investment list by user id
+      operationId: getInvestment
       parameters:
         - name: userId
           in: path
@@ -193,158 +252,114 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserHistoryArray'
+                $ref: "#/components/schemas/UserInvestmentArray"
             application/xml:
               schema:
-                $ref: '#/components/schemas/UserHistoryArray'
-        '400':
+                $ref: "#/components/schemas/UserInvestmentArray"
+        "400":
           description: Invalid userId supplied
-        '404':
+        "404":
           description: User not found
-        '5XX':
+        "5XX":
           description: Unexpected error.
-  /api/user/point:
-    put:
+    post:
       tags:
         - user
-      summary: Updated user
-      description: This can only be done by the logged in user.
-      operationId: updateUserPoint
+      summary: push project in investment list
+      operationId: addInvestment
       parameters:
-        - name: point
+        - name: projectId
           in: path
-          description: point that need to be updated
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-      requestBody:
-        description: Updated user object
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-        required: true
-      responses:
-        '400':
-          description: Invalid user supplied
-        '404':
-          description: User not found
-  /api/category/{categoryId}:
-    get:
-      tags:
-        - project
-      summary: Get project list by category id
-      operationId: getProjectListByCategoryId
-      parameters:
-        - name: categoryId
-          in: path
-          description: The category id that needs to be fetched.
           required: true
           style: simple
           explode: false
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectListArray'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ProjectListArray'
-        '400':
-          description: Invalid categoryId supplied
-        '404':
-          description: Category not found
-        '5XX':
-          description: Unexpected error.
-  /api/category:
+                $ref: "#/components/schemas/UserInvestmentArray"
+  /api/project/schedule:
     get:
       tags:
-        - category
-      summary: Get category list
-      operationId: getCategoryList
+        - project
+      summary: Get schedule project list
+      operationId: getScheduleProjectList
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryListArray'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/CategoryListArray'
-        '404':
-          description: Category not found
-        '5XX':
+                $ref: "#/components/schemas/ScheduleProjectListArray"
+        "404":
+          description: Project not found
+        "5XX":
           description: Unexpected error.
-  /api/popular:
+  /api/project/success:
+    get:
+      tags:
+        - project
+      summary: Get success project list
+      operationId: getSuccessProjectList
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessProjectListArray"
+        "404":
+          description: Project not found
+        "5XX":
+          description: Unexpected error.
+  /api/project/popular:
     get:
       tags:
         - project
       summary: Get popular project list
       operationId: getPopularProjectList
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PopularProjectListArray'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/PopularProjectListArray'
-        '404':
+                $ref: "#/components/schemas/PopularProjectListArray"
+        "404":
           description: Project not found
-        '5XX':
+        "5XX":
           description: Unexpected error.
-  /api/category/{categoryId}/project/{projectId}:
-    get:
+  /api/serach:
+    post:
       tags:
         - project
-      summary: Get project description by category id and project id
-      operationId: getProjectDescriptionByCategoryIdAndProjectId
+      summary: serach project macthing keyword
+      operationId: elasticsearh
       parameters:
-        - name: categoryId
+        - name: keyword
           in: path
-          description: The category id that needs to be fetched.
           required: true
           style: simple
           explode: false
           schema:
-            type: integer
-        - name: projectId
-          in: path
-          description: The project id that needs to be fetched.
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
+            type: string
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectListArray'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ProjectListArray'
-        '400':
-          description: Invalid categoryId supplied
-        '404':
-          description: Project not found
-        '5XX':
+                $ref: "#/components/schemas/ProjectListArray"
+        "5XX":
           description: Unexpected error.
 components:
   schemas:
@@ -390,7 +405,7 @@ components:
           type: string
           format: date
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         img:
           type: string
       xml:
@@ -421,10 +436,10 @@ components:
           type: string
           format: date
         project_id:
-          $ref: '#/components/schemas/Project'
+          $ref: "#/components/schemas/Project"
         user_id:
-          $ref: '#/components/schemas/User'
-    History:
+          $ref: "#/components/schemas/User"
+    Investment:
       required:
         - id
       type: object
@@ -439,45 +454,45 @@ components:
           type: integer
           format: int64
         project_id:
-          $ref: '#/components/schemas/Project'
+          $ref: "#/components/schemas/Project"
         user_id:
-          $ref: '#/components/schemas/User'
-    UserHistoryArray:
+          $ref: "#/components/schemas/User"
+    UserInvestmentArray:
       required:
         - items
       type: array
       items:
-        $ref: '#/components/schemas/History'
+        $ref: "#/components/schemas/Investment"
     UserJjimArray:
       required:
         - items
       type: array
       items:
-        $ref: '#/components/schemas/Jjim'
+        $ref: "#/components/schemas/Jjim"
     ProjectListArray:
       required:
         - items
       type: array
       items:
-        $ref: '#/components/schemas/Project'
+        $ref: "#/components/schemas/Project"
     CategoryListArray:
       required:
         - items
       type: array
       items:
-        $ref: '#/components/schemas/Category'
+        $ref: "#/components/schemas/Category"
     PopularProjectListArray:
       required:
         - items
       type: array
       items:
-        $ref: '#/components/schemas/Project'
+        $ref: "#/components/schemas/Project"
     CartListArray:
       required:
         - items
       type: array
       items:
-        $ref: '#/components/schemas/Cart'
+        $ref: "#/components/schemas/Cart"
     Cart:
       required:
         - id
@@ -493,23 +508,6 @@ components:
           type: integer
           format: int64
         project_id:
-          $ref: '#/components/schemas/Project'
+          $ref: "#/components/schemas/Project"
         user_id:
-          $ref: '#/components/schemas/User'
-    Favorite_Category:
-      required:
-        - id
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        user_id:
-          $ref: '#/components/schemas/User'
-        category_id:
-          $ref: '#/components/schemas/Category'
-    inline_response_200:
-      type: object
-      properties:
-        success:
-          type: boolean
+          $ref: "#/components/schemas/User"
