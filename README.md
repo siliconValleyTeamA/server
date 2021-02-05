@@ -77,6 +77,11 @@ Then, you can access to your server http://localhost:8080
 
 ---
 
+## API - Swagger
+![Swagger](https://user-images.githubusercontent.com/67114268/106980805-35369880-67a4-11eb-8c03-de4d5911fc6a.png)
+
+---
+
 ## 기술 스택
 
 **Backend**
